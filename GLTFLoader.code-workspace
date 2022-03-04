@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"name": "Root",
+			"path": ".",
+		}
+	],
+	"settings": {
+		"files.exclude":{
+			"include/": true,
+			"lib/": true,
+			"bin/": true,
+			"**/*.o": true,
+			"**/*.d": true,
+			"models/": true,
+			"images/": true,
+		}
+		"problems.decorations.enabled": false,
+		"explorer.sortOrder": "type",
+		"files.associations": {
+			"*.shader": "glsl",
+			"*.h": "c",
+			"*.c": "c",
+			"*.uiss": "json",
+		}
+	}
+}
