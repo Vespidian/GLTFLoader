@@ -5,12 +5,15 @@
 
 #include "debug.h"
 
-#include "gltf_loader.h"
+#include "gltf.h"
 
 int main(){
 	InitDebug();
 
-	GLTFState gltf = GLTFOpen("../assets/monkey.gltf");
+	GLTF gltf = GLTFOpen("../assets/monkey.gltf");
+
+	GLTFReload(&gltf);
+
 	GLTFFree(&gltf);
 
 	QuitDebug();

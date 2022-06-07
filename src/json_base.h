@@ -28,18 +28,13 @@ typedef struct JSONState{
 	// Current depth of the json parser
 	unsigned int depth;
 
-	// Strings parsed by 'JSONTokenValue' function are stored here (Internal)
-	char **parsed_strings;
-	// Internal
-	unsigned int num_strings;
-
-	// Internal
+	// The source string containing raw json data
 	char *json_string;
 
 	// Raw token data from JASMINE
 	jsmntok_t *tokens;
 
-	// Internal
+	// Number of tokens found by JASMINE
 	int num_tokens;
 
 	// Internal
@@ -65,7 +60,6 @@ typedef struct JSONToken{
 	bool _bool;
 	int _int;
 	float _float;
-	char *_string;
 }JSONToken;
 
 
@@ -126,11 +120,24 @@ typedef void (*JSONTokenFunc)(JSONState *json, unsigned int token);
 void JSONSetTokenFunc(JSONState *json, char *type, JSONTokenFunc func_ptr);
 
 /**
+ *  @return An empty JSONState initialized with default values
+ */
+JSONState JSONNew();
+
+/**
  *  @brief Open, read, and tokenize the specified file
  *  @param path - Path to file to be read
  *  @return A JSONState ready to be passed to 'JSONSetTokenFunc' and 'JSONParse'
  */
 JSONState JSONOpen(char *path);
+
+/**
+ *  @brief tokenize the string as raw json data
+ *  @param string source string
+ *  @param path useful for debugging (give your strings a name), mostly used by 'JSONOpen'
+ *  @return A JSONState ready to be passed to 'JSONSetTokenFunc' and 'JSONParse'
+ */
+JSONState JSONRead(char *string, char *path);
 
 /**
  *  @brief Loop through tokens only at the current depth and call any 'JSONTokenFunc' that have been set
@@ -148,5 +155,11 @@ void JSONFree(JSONState *json);
  *  @brief Utility function that prints out the specified token
  */
 void JSONPrint(JSONState *json, unsigned int token);
+
+/**
+ *  @brief Utility function to copy a token to a string, this function ALLOCATES and COPIES the string into the char pointer specified
+ *  @param string_ptr NULL initialized non allocated char pointer to be allocated with the token string (ie: char *d = NULL;)
+ */
+void JSONTokenToString(JSONState *json, unsigned int token, char **string_ptr);
 
 #endif
