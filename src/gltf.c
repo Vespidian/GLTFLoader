@@ -753,6 +753,6 @@ void GLTFFree(GLTF *gltf){
 
 		GLTFStateFree(&gltf->gltf_state);
 
-		gltf->path = NULL;
+		gltf->path = NULL; // 'gltf.path' is a pointer to 'gltf.gltf_state.path' so 'GLTFStateFree()' frees it, we only need to stop pointing at it
 	}
 }
